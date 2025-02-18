@@ -1,96 +1,107 @@
-# Nexus Network CLI
+# Network CLI
 
-A high-performance command-line interface for contributing proofs to the Nexus network.
-
-<figure>
-    <a href="https://beta.nexus.xyz/">
-        <img src="assets/images/nexus-network-image.png" alt="Nexus Network visualization showing a distributed network of interconnected nodes with a 'Launch Network' button in the center">
-    </a>
-    <figcaption>
-        <strong>Verifiable Computation on a Global Scale</strong><br>
-        We're building a global distributed prover network to unite the world's computers and power a new and better Internet: the Verifiable Internet. Connect to the beta and give it a try today.
-    </figcaption>
-</figure>
-
-## The Nexus Network
-
-The [Nexus Network](https://docs.nexus.xyz/network) is a global distributed prover network that unites the world's computers to power a new and better Internet: the Verifiable Internet.
-
-There have been two testnets:
-
-- The first testnet period was in [October 08 to 28 2024](https://blog.nexus.xyz/nexus-launches-worlds-first-open-prover-network/).
-- The second testnet period was in [December 9 to 13, 2024](https://blog.nexus.xyz/the-new-nexus-testnet-is-live/).
-
-**Important:** *The Nexus network is currently in devnet. It is important to note that you cannot earn Nexus points. Instead, devnet allows developers to experiment and build with the network. Stay tuned for updates regarding future testnets.*
-
-## Quick Start
-
-```bash
-curl https://cli.nexus.xyz/ | sh
-```
-
-Running `install.sh` locally
-```sh
-./install.sh
-```
-
-If you don't have Rust installed, you will be prompted to install it.
+The command line interface (CLI) lets you run a prover node and contribute proofs to the Nexus network.
+It is the highest-performance option for proving.
 
 ## Prerequisites
 
+If you don't have these dependencies already, install them first.
+
 ### Linux
-```bash
-sudo apt update && sudo apt upgrade
-sudo apt install build-essential pkg-config libssl-dev git-all protobuf-compiler
+
+```
+sudo apt update
+sudo apt upgrade
+sudo apt install build-essential pkg-config libssl-dev git-all
 ```
 
 ### macOS
-```bash
+
+If you have [installed Homebrew](https://brew.sh/) to manage packages on OS X,
+run this command to install Git.
+
+```
 brew install git
 ```
 
 ### Windows
-[Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install) first, then follow Linux instructions.
+
+[Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install),
+then see Linux instructions above.
+
+## Quick start
+
+```
+curl https://cli.nexus.xyz/ | sh
+```
+
+If you do not already have Rust, you will be prompted to install it.
 
 ## Terms of Use
 
-Use of the CLI is subject to the [Terms of Use](https://nexus.xyz/terms-of-use). First-time users will be prompted to accept the terms. For non-interactive acceptance (e.g., CI environments), use:
+Use of the CLI is subject to the [Terms of Use](https://nexus.xyz/terms-of-use).
+The first time you run it, it prompts you to accept the terms. To accept the terms
+noninteractively (for example, in a continuous integration environment),
+add `NONINTERACTIVE=1` before `sh`.
+
+## Known issues
+
+* Only the latest version of the CLI is currently supported.
+* Prebuilt binaries are not yet available.
+* Linking email to prover id is currently available on the web version only.
+* Counting cycles proved is not yet available in the CLI.
+* Only proving is supported. Submitting programs to the network is in private beta.
+To request an API key, contact us at growth@nexus.xyz.
+
+## Modifying source
+
+The curl command in the quick start section downloads this repo to $HOME/.nexus/network-api
+and automatically runs it. If you want to modify the CLI, it's better to clone the GitHub
+repo somewhere else.
+
+To run an optimized build using Nexus servers, run the following command in clients/cli:
+
+```
+cargo run -r -- --start --beta
+```
+
+To run the CLI with prover enabled, run:
+
+```sh
+cargo run -r -- --start --beta    # Start the prover on beta network
+cargo run -r -- logout --beta  # Clear credentials
+```
+
+## Troubleshooting
+
+### Protocol Buffer Compiler (protoc) Installation
+
+If you encounter an error about `protoc` not being installed, you can install it:
+
+#### macOS
+```bash
+# Install using Homebrew
+brew install protobuf
+
+# Verify installation
+protoc --version
+```
+
+#### Windows
 
 ```bash
-NONINTERACTIVE=1 sh
+# Install using Chocolatey
+choco install protobuf
 ```
 
-## Prover Id
+#### Linux
 
-The CLI will prompt for your web prover id from the Nexus testnet or devnet on startup. It is ok to skip this prompt and a random id will be generated, but you'll be prompted again on startup until your web prover id is entered.
-
-The prover id prompt is disabled when NONINTERACTIVE=1 is set. In a server environment,
-you can manually overwrite $HOME/.nexus/prover-id with your full prover id.
-
-## Current Limitations
-
-- Only latest CLI version is supported
-- No prebuilt binaries yet
-- Proof cycle counting coming soon
-- Program submission requires API key (contact growth@nexus.xyz)
-
-## Get Help
-
-- [Network FAQ](https://nexus.xyz/network#network-faqs)
-- [Discord Community](https://discord.gg/nexus-xyz)
-- Technical issues? [Open an issue](https://github.com/nexus-xyz/network-api/issues)
-
-## Repository Structure
-
-```
-network-api/
-├── assets/       # Media for documentation
-├── clients/
-│   └── cli/      # Main CLI implementation
-├── proto/        # Shared network interface definition
-└── public/       # Files hosted at cli.nexus.xyz
+```bash
+# Install using apt
+sudo apt install protobuf-compiler
 ```
 
-## Contributing
+## Resources
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup and guidelines.
+* [Network FAQ](https://nexus.xyz/network#network-faqs)
+* [Discord server](https://discord.gg/nexus-xyz)
